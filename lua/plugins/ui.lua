@@ -9,14 +9,14 @@ return {
     event = "VeryLazy",
     config = function()
       require("notify").setup({
-        -- Use character icons
-        icons = {
-          DEBUG = "!",
-          ERROR = "!",
-          INFO = "!",
-          TRACE = "!",
-          WARN = "!",
-        },
+        -- -- Use character icons
+        -- icons = {
+        --   DEBUG = "!",
+        --   ERROR = "!",
+        --   INFO = "!",
+        --   TRACE = "!",
+        --   WARN = "!",
+        -- },
         -- Animation style
         stages = "static",
         -- Default timeout for notifications
@@ -61,16 +61,12 @@ return {
     opts = {
       options = {
         numbers = "none",
-        buffer_close_icon = "x",
-        modified_icon = "●",
         close_icon = "x",
+        buffer_close_icon = "x",
         left_trunc_marker = "..",
         right_trunc_marker = "..",
-        show_buffer_icons = false,
+        show_buffer_icons = true,
         diagnostics = "nvim_lsp",
-        diagnostics_indicator = function(count, level, diag)
-          return "! " .. count
-        end,
         sort_by = "id",
         offsets = {
           {
@@ -89,9 +85,7 @@ return {
     event = "VeryLazy",
     opts = {
       options = {
-        theme = "auto",
         globalstatus = false,
-        icons_enabled = false,
         section_separators = "",
         component_separators = "",
         disabled_filetypes = {},
@@ -112,12 +106,6 @@ return {
         lualine_y = { "location" },
         lualine_z = { "progress" }
       },
-      -- winbar = {
-      --   lualine_c = { lualine.pretty_path },
-      -- },
-      -- inactive_winbar = {
-      --   lualine_c = { lualine.pretty_path },
-      -- },
       extensions = {
         "quickfix",
         "fugitive",
@@ -129,6 +117,8 @@ return {
       },
     },
   },
+  -- Icons for everything
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   -- File explorer
   {
     "nvim-tree/nvim-tree.lua",
@@ -144,20 +134,17 @@ return {
           root_folder_label = false,
           highlight_modified = "name",
           highlight_diagnostics = "name",
-          icons = {
-            show = {
-              file = false,
-              folder = false,
-              folder_arrow = false,
-              diagnostics = false,
-            },
-          },
           indent_markers = {
             enable = true,
             icons = {
               corner = "└ ",
               edge = "│ ",
               none = "  ",
+            },
+          },
+          icons = {
+            show = {
+              folder_arrow = false,
             },
           },
         },
@@ -171,12 +158,12 @@ return {
         diagnostics = {
           enable = true,
           show_on_dirs = false,
-          icons = {
-            hint = "●",
-            info = "●",
-            warning = "●",
-            error = "●",
-          },
+          -- icons = {
+          --   hint = "●",
+          --   info = "●",
+          --   warning = "●",
+          --   error = "●",
+          -- },
           severity = {
             min = vim.diagnostic.severity.WARNING,
             max = vim.diagnostic.severity.ERROR,

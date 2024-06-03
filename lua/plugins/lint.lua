@@ -5,7 +5,7 @@ return {
     build = ":TSUpdate",
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     opts = {
-      indent = { enable = true },
+      -- indent = { enable = true },
       highlight = {
         enable = true,
         disable = function(language, buf)

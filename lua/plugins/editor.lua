@@ -5,12 +5,15 @@ return {
   { "jdhao/whitespace.nvim", event = "VeryLazy" },
   -- Auto pairs
   { "echasnovski/mini.pairs", event = "VeryLazy", opts = {} },
-  -- Auto surround
-  { "echasnovski/mini.surround", event = "VeryLazy", opts = {} },
-  -- Comment motions
-  { "echasnovski/mini.comment", event = "VeryLazy", opts = {} },
   -- Highlight word under cursor
   { "echasnovski/mini.cursorword", event = "VeryLazy", opts = {} },
+  -- Auto surround
+  { "echasnovski/mini.surround",
+    event = "VeryLazy",
+    opts = {
+      respect_selection_type = true,
+    },
+  },
   -- Better text objects
   -- { "echasnovski/mini.ai", event = "VeryLazy" },
   -- Current scope highlight
@@ -56,7 +59,7 @@ return {
         tab_char = "│",
       },
       scope = {
-		enabled = false,
+        enabled = false,
       },
       exclude = {
         filetypes = {
@@ -115,11 +118,11 @@ return {
     },
     opts = {
       padding = false,
-      fold_open = "+",
-      fold_closed = "-",
-      use_diagnostic_signs = true,
-      -- Broken on main according to folke, so we have to clear them below too
-      icons = false,
+      -- fold_open = "+",
+      -- fold_closed = "-",
+      -- use_diagnostic_signs = true,
+      -- -- Broken on main according to folke, so we have to clear them below too
+      -- icons = false,
     },
   },
   -- List and highlight TODO, HACK, BUG, etc.
@@ -134,17 +137,7 @@ return {
       { "<leader>xT", "<Cmd>TodoTrouble keywords=TODO,FIX,FIXME<CR>", desc = "Todo/Fix/Fixme (Trouble)" },
     },
     opts = {
-      -- See trouble configuration about
       signs = false,
-      keywords = {
-        FIX = { icon = "" },
-        TODO = { icon = "" },
-        HACK = { icon = "" },
-        WARN = { icon = "" },
-        PERF = { icon = "" },
-        NOTE = { icon = "" },
-        TEST = { icon = "" },
-      },
       highlight = {
         keyword = "bg",
       },
@@ -161,12 +154,13 @@ return {
       { "<leader>fs", "<Cmd>FzfLua files<CR>", desc = "Find files" },
       { "<leader>hs", "<Cmd>FzfLua oldfiles<CR>", desc = "Find files in history" },
       { "<leader>bs", "<Cmd>FzfLua buffers<CR>", desc = "Find buffers" },
+      { "<leader>r", "<Cmd>FzfLua lsp_references<CR>", desc = "Find symbol references" },
       { "<leader>s", "<Cmd>FzfLua lsp_document_symbols<CR>", desc = "Find symbols" },
       { "<leader>S", "<Cmd>FzfLua lsp_workspace_symbols<CR>", desc = "Find symbols (workspace)" },
+      { "<leader>g", "<Cmd>FzfLua grep<CR>", desc = "Grep workspace" },
     },
     opts = {
       winopts = {
-        border = "single",
         preview = {
           layout = "horizontal",
           border = "noborder",

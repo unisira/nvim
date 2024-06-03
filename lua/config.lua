@@ -94,14 +94,26 @@ opt.listchars:append({
 require("autocmds")
 require("keymaps")
 -- Use spaces and 2-width tabs for lua files
-require("util.filetype").tabstyle({
+require("util.filetype").style({
   lua = {
     spaces = true,
     width = 2,
+    comment = "-- %s",
   },
   rust = {
     spaces = false,
     width = 4,
-  }
+    comment = "// %s",
+  },
+  c = {
+    spaces = false,
+    width = 4,
+    comment = "// %s",
+  },
+  cpp = {
+    spaces = false,
+    width = 4,
+    comment = "// %s",
+  },
 })
 

@@ -1,4 +1,5 @@
 local themes = {
+  { 'projekt0n/github-nvim-theme', lazy = true },
   { "navarasu/onedark.nvim", lazy = true },
   { "sainnhe/edge", lazy = true },
   { "sainnhe/sonokai", lazy = true },
@@ -9,6 +10,7 @@ local themes = {
   { "olimorris/onedarkpro.nvim", lazy = true },
   { "marko-cerovac/material.nvim", lazy = true },
   { "folke/tokyonight.nvim", lazy = true },
+  { "mellow-theme/mellow.nvim", lazy = true },
 }
 
 -- Options that will be passed through lazy.nvim's `opts`

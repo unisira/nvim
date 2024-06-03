@@ -94,22 +94,21 @@ return {
       })
 
       vim.diagnostic.config({
+	    signs = false,
         underline = false,
         update_in_insert = false,
-        -- virtual_text = false,
         virtual_text = {
           spacing = 4,
           source = false,
-          -- prefix = "!",
         },
         severity_sort = true,
       })
 
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "single",
+        border = "rounded",
       })
       vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "single",
+        border = "rounded",
       })
     end,
   },
