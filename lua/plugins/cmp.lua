@@ -76,7 +76,7 @@ return {
             "kind",
             "menu",
           },
-          format = function(entry, item)
+          format = function(_, item)
             local opts = require("cmp.config").get().formatting.truncate
             -- Return item as-is if truncation is disabled
             if not opts.enable then

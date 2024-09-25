@@ -5,12 +5,11 @@ return {
     build = ":TSUpdate",
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     opts = {
-      -- indent = { enable = true },
       highlight = {
         enable = true,
-        disable = function(language, buf)
-          -- TODO: Move into util/options, need to localize all custom options
-          return vim.api.nvim_buf_line_count(buf) > 5000
+        disable = function(_, buf)
+          -- Disable treesitter for large files, This might've been cuased by indentation
+          return vim.api.nvim_buf_line_count(buf) > 7500
         end,
       },
       ensure_installed = {

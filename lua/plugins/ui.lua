@@ -1,31 +1,21 @@
-local lualine = require("util.lualine")
-
 return {
-  -- LSP progress indicators
-  { "j-hui/fidget.nvim", opts = {} },
+  -- Display key mappings
+  { "folke/which-key.nvim", opts = {} },
+  -- Icons for everything
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   -- Better `vim.notify`
   {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     config = function()
       require("notify").setup({
-        -- -- Use character icons
-        -- icons = {
-        --   DEBUG = "!",
-        --   ERROR = "!",
-        --   INFO = "!",
-        --   TRACE = "!",
-        --   WARN = "!",
-        -- },
-        -- Animation style
         stages = "static",
-        -- Default timeout for notifications
         timeout = 1500,
-        -- Use static borders
         on_open = function(win)
           vim.api.nvim_win_set_config(win, { border = "single" })
         end,
       })
+
       -- Set vim.notify to use the new notifications
       vim.notify = require("notify")
     end,
@@ -43,87 +33,100 @@ return {
       },
     },
   },
-  -- Custom buffer/tab line
+  -- Easy built-in terminals
   {
-    "akinsho/bufferline.nvim",
+    'akinsho/toggleterm.nvim',
     event = "VeryLazy",
-    keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
-      { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", desc = "Delete Other Buffers" },
-      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
-      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
-      { "<C-h>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
-      { "<C-l>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next Buffer" },
-      { "[b", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
-      { "]b", "<Cmd>BufferLineCycleNext<CR>", desc = "Next Buffer" },
-    },
     opts = {
-      options = {
-        numbers = "none",
-        close_icon = "x",
-        buffer_close_icon = "x",
-        left_trunc_marker = "..",
-        right_trunc_marker = "..",
-        show_buffer_icons = true,
-        diagnostics = "nvim_lsp",
-        sort_by = "id",
-        offsets = {
-          {
-            filetype = "NvimTree",
-            highlight = "Directory",
-            text = "Neo-tree",
-            text_align = "left",
-          },
-        },
-      },
+      open_mapping = "<C-\\>",
     },
   },
-  -- Custom status-line
+  -- FZF implementation for telescope
+  { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
+  -- Fuzzy finder for files, symbols, etc.
+  {
+    "nvim-telescope/telescope.nvim",
+    event = "VeryLazy",
+    branch = "0.1.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "nvim-telescope/telescope-fzf-native.nvim",
+    },
+    config = function()
+      require("telescope").setup({
+        defaults = {
+          sorting_strategy = "ascending",
+          layout_strategy = "horizontal",
+          layout_config = {
+            prompt_position = "top",
+          },
+          borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        }
+      })
+      -- Use FZF, it's better
+      require("telescope").load_extension("fzf")
+
+      local builtin = require("telescope.builtin")
+      vim.keymap.set("n", "<Leader>b", builtin.buffers, { desc = "Search active buffers" })
+      vim.keymap.set("n", "<Leader>f", builtin.find_files, { desc = "Search files" })
+      vim.keymap.set("n", "<Leader>F", builtin.find_files, { desc = "Browse files" })
+      vim.keymap.set("n", "<Leader>o", builtin.oldfiles, { desc = "Search recent files" })
+      vim.keymap.set("n", "<Leader>g", builtin.live_grep, { desc = "Search by grep" })
+      vim.keymap.set("n", "<Leader>h", builtin.help_tags, { desc = "Search help-tags" })
+      vim.keymap.set("n", "<Leader>c", builtin.colorscheme, { desc = "Search colorschemes" })
+      vim.keymap.set("n", "<Leader>r", builtin.lsp_references, { desc = "Search references" })
+      vim.keymap.set("n", "<Leader>s", builtin.lsp_document_symbols, { desc = "Search symbols" })
+      vim.keymap.set("n", "<Leader>S", builtin.lsp_workspace_symbols, { desc = "Search workspace symbols" })
+      vim.keymap.set("n", "<Leader>d", builtin.diagnostics, { desc = "Search diagnostics" })
+    end,
+  },
+  -- Better status line
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    opts = {
-      options = {
-        globalstatus = false,
-        section_separators = "",
-        component_separators = "",
-        disabled_filetypes = {},
-      },
-      sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = { lualine.root, lualine.pretty_path, "diagnostics"},
-        lualine_x = { "encoding", "filetype" },
-        lualine_y = { "location" },
-        lualine_z = { "progress" },
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { lualine.pretty_path },
-        lualine_x = { "encoding", "filetype" },
-        lualine_y = { "location" },
-        lualine_z = { "progress" }
-      },
-      extensions = {
-        "quickfix",
-        "fugitive",
-        "nvim-tree",
-        "lazy",
-        "toggleterm",
-        "trouble",
-        "fzf"
-      },
-    },
+    config = function()
+      -- Get the custom components defined in 'extra/lualine.lua'
+      local extras = require("extra.lualine");
+
+      require("lualine").setup({
+        options = {
+          section_separators = "",
+          component_separators = "",
+        },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = {},
+          lualine_c = { extras.pretty_path },
+          lualine_x = { "diagnostics" },
+          lualine_y = { "location" },
+          lualine_z = { "progress" },
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { extras.pretty_path },
+          lualine_x = { "diagnostics" },
+          lualine_y = { "location" },
+          lualine_z = { "progress" }
+        },
+        extensions = {
+          "quickfix",
+          "fugitive",
+          "nvim-tree",
+          "lazy",
+          "toggleterm",
+          "trouble",
+          "fzf"
+        },
+      })
+    end,
   },
-  -- Icons for everything
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-  -- File explorer
+  -- File explorer, here because I can't get rid of it
   {
     "nvim-tree/nvim-tree.lua",
     keys = {
-      { "<space>s", "<Cmd>NvimTreeToggle<CR>", desc = "Toggle Nvim-Tree", mode = "n" },
+      { "<Space>s", "<Cmd>NvimTreeToggle<CR>", desc = "Open file explorer", mode = "n" },
     },
     config = function()
       require("nvim-tree").setup({
@@ -158,12 +161,6 @@ return {
         diagnostics = {
           enable = true,
           show_on_dirs = false,
-          -- icons = {
-          --   hint = "●",
-          --   info = "●",
-          --   warning = "●",
-          --   error = "●",
-          -- },
           severity = {
             min = vim.diagnostic.severity.WARNING,
             max = vim.diagnostic.severity.ERROR,
@@ -180,7 +177,7 @@ return {
       })
 
       local set_hl = vim.api.nvim_set_hl
-      -- Windows terminal doesn't properly handle underline stuff, use text highlights instead
+      -- Use generic filename highlights instead of underlining
       set_hl(0, "NvimTreeDiagnosticErrorFileHL", { link = "DiagnosticError" })
       set_hl(0, "NvimTreeDiagnosticWarnFileHL", { link = "DiagnosticWarn" })
       set_hl(0, "NvimTreeDiagnosticInfoFileHL", { link = "DiagnosticInfo" })
@@ -189,35 +186,33 @@ return {
       set_hl(0, "NvimTreeFolderArrowOpen", { link = "Bold" })
     end,
   },
-  -- Better LSP UI
-  -- {
-  --   "nvimdev/lspsaga.nvim",
-  --   event = "VeryLazy",
-  --   opts = {
-  --     ui = {
-  --       border = "single",
-  --       devicon = false,
-  --       foldericon = false,
-  --       expand = "+",
-  --       collapse = "-",
-  --     },
-  --     hover = {
-  --       max_width = 0.5,
-  --       max_height = 0.05,
-  --     },
-  --     -- TODO
-  --     -- TODO
-  --     -- TODO
-  --     -- TODO
-  --     -- TODO
-  --   },
-  -- },
-  -- Nice dashboard
-  -- {
-  --   "nvimdev/dashboard-nvim",
-  --   event = "VimEnter",
-  --   opts = {
-  --     -- TODO
-  --   },
-  -- }
+  -- Lists for diagnostics, symbols, etc.
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    opts = {},
+    keys = {
+      { "<Leader>td", "<Cmd>Trouble diagnostics toggle_preview<CR>", desc = "Workspace Diagnostics (Trouble)" },
+      { "<Leader>ts", "<Cmd>Trouble symbols toggle_preview<CR>", desc = "Document Symbols (Trouble)" },
+      { "<Leader>tl", "<Cmd>Trouble lsp toggle_preview<CR>", desc = "LSP Definitions/References (Trouble)" },
+    },
+  },
+  -- List, highlight, and search TODO, HACK, BUG, etc comments.
+  {
+    "folke/todo-comments.nvim",
+    cmd = "TodoTrouble",
+    event = "BufEnter",
+    keys = {
+      { "]t", function() require("todo-comments").jump_next() end, desc = "Next TODO comments" },
+      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous TODO comments" },
+      { "<Leader>tt", "<Cmd>Trouble todo<CR>", desc = "List TODO comments" },
+      { "<Leader>tT", "<Cmd>TodoTelescope<CR>", desc = "Search TODO comments" },
+    },
+    opts = {
+      signs = false,
+      highlight = {
+        keyword = "bg",
+      },
+    },
+  },
 }

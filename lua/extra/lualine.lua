@@ -60,9 +60,6 @@ M.relative = "cwd"
 
 M.pretty_path = {
   function(self)
-    if vim.g.statusline_winid ~= nil then
-      vim.notify(vim.inspect(vim.g.statusline_winid))
-	end
     local path = vim.fn.expand("%:p")
     if path == "" then
       return ""
@@ -106,6 +103,13 @@ M.root = {
   color = function(section)
 	  return { fg = M.root_hl }
   end,
+}
+
+M.empty = {
+  function(self)
+    return "      "
+  end,
+  draw_empty = true,
 }
 
 return M

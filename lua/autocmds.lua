@@ -3,6 +3,15 @@ local function augroup(name)
 end
 
 -- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argv(0) == "" then
+      require("telescope.builtin").find_files()
+    end
+  end,
+})
+
+-- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   group = augroup("checktime"),
   callback = function()
@@ -32,12 +41,13 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup("close_with_q"),
   desc = "Close buffers on <q>",
   pattern = {
-	"checkhealth",
-	"toggleterm",
+    "checkhealth",
+    "toggleterm",
     "lspinfo",
     "notify",
-	"query",
-	"help",
+    "netrw",
+    "query",
+    "help",
     "qf",
   },
   callback = function(event)
@@ -134,4 +144,3 @@ vim.api.nvim_create_autocmd("FileType", {
 --     end
 --   end
 -- })
--- Auto-format on save

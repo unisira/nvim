@@ -1,16 +1,14 @@
 local themes = {
-  { 'projekt0n/github-nvim-theme', lazy = true },
-  { "navarasu/onedark.nvim", lazy = true },
   { "sainnhe/edge", lazy = true },
   { "sainnhe/sonokai", lazy = true },
-  { "sainnhe/gruvbox-material", lazy = true },
   { "sainnhe/everforest", lazy = true },
-  { "EdenEast/nightfox.nvim", lazy = true },
+  { "ellisonleao/gruvbox.nvim", lazy = true },
+  { "rrethy/base16-nvim", lazy = true },
   { "catppuccin/nvim", name = "catppuccin", lazy = true },
-  { "olimorris/onedarkpro.nvim", lazy = true },
-  { "marko-cerovac/material.nvim", lazy = true },
   { "folke/tokyonight.nvim", lazy = true },
-  { "mellow-theme/mellow.nvim", lazy = true },
+  { "oahlen/iceberg.nvim", lazy = true },
+  { "niyabits/calvera-dark.nvim", lazy = true },
+  { "ayu-theme/ayu-vim", lazy = true },
 }
 
 -- Options that will be passed through lazy.nvim's `opts`
@@ -30,11 +28,14 @@ local colorscheme_opts = {
   },
   ["catppuccin/nvim"] = {
     no_italic = true,
+    no_underline = true,
+    transparent_background = true,
     color_overrides = {
       mocha = {
-        base = "#000000",
-        mantle = "#000000",
-        crust = "#000000",
+        base = "#181823",
+        -- Highlights statusline, nvim-tree etc. (1F1F2F is good for a brighter statusline etc)
+        mantle = "#181823",
+        crust = "#212130",
       },
     },
   },

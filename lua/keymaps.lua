@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 
 map({ "n", "x" }, ";", ":", { desc = "Enter command" })
+map({ "n", "x" }, ":", ";", { desc = "Repeat last T/F/t/f motion" })
 
 -- Do not include white space characters when using $ in visual mode
 map("x", "$", "g_")
@@ -14,10 +15,6 @@ map("n", "<Leader>W", "<Cmd>wa<CR>", { silent = true, desc = "Save all buffer" }
 map("n", "<Leader>q", "<Cmd>x<CR>", { silent = true, desc = "Save and quit current buffer" })
 -- Save and quit all opened buffers
 map("n", "<Leader>Q", "<Cmd>xa<CR><Cmd>qa<CR>", { silent = true, desc = "Save all and quit" })
-
--- Insert empty line above/below without moving cursor
-map("n", "<Space>o", "m`o<ESC>``", { desc = "Insert line below" })
-map("n", "<Space>O", "m`O<ESC>``", { desc = "Insert line above" })
 
 -- Better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -58,7 +55,6 @@ map("x", "<", "<gv")
 map("x", ">", ">gv")
 
 -- Clear search with <Esc>
--- map({ "i", "n" }, "<Esc>", "<Cmd>noh<CR><Cmd>let @/=''<CR><Esc>", { silent = true, desc = "Escape and Clear hlsearch" })
 map({ "i", "n" }, "<Esc>", "<Esc><Cmd>noh<CR>", { desc = "Escape and Clear hlsearch" })
 
 -- Open lazy window
