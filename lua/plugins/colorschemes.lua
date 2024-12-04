@@ -2,17 +2,27 @@ local themes = {
   { "sainnhe/edge", lazy = true },
   { "sainnhe/sonokai", lazy = true },
   { "sainnhe/everforest", lazy = true },
-  { "ellisonleao/gruvbox.nvim", lazy = true },
   { "rrethy/base16-nvim", lazy = true },
   { "catppuccin/nvim", name = "catppuccin", lazy = true },
+  { "ellisonleao/gruvbox.nvim", lazy = true },
+  { "rebelot/kanagawa.nvim", lazy = true },
   { "folke/tokyonight.nvim", lazy = true },
-  { "oahlen/iceberg.nvim", lazy = true },
-  { "niyabits/calvera-dark.nvim", lazy = true },
-  { "ayu-theme/ayu-vim", lazy = true },
 }
 
 -- Options that will be passed through lazy.nvim's `opts`
 local colorscheme_opts = {
+  ["ellisonleao/gruvbox.nvim"] = {
+    italic = {
+      strings = false,
+      comments = false,
+      operators = false,
+      folds = false,
+    },
+  },
+  ["rebelot/kanagawa.nvim"] = {
+    commentStyle = { italic = false },
+    keywordStyle = { italic = false },
+  },
   ["folke/tokyonight.nvim"] = {
     styles = {
       comments = { italic = false },

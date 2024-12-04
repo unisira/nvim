@@ -24,6 +24,7 @@ return {
           end,
         },
         mapping = cmp.mapping.preset.insert({
+          -- TODO: Fix this, it STILL jumps to expired sessions on tab
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()

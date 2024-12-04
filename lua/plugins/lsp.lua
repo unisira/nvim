@@ -6,8 +6,6 @@ return {
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- vim.lsp.log.set_level(vim.log.levels.OFF)
-
       local function on_attach(client, buf)
         local map = function(mode, l, r, opts)
           opts = opts or {}
@@ -35,57 +33,11 @@ return {
         if client.server_capabilities.documentFormattingProvider then
           map("n", "<Space>f", vim.lsp.buf.format, { desc = "Format buffer" })
         end
-
-        -- Show diagnostics on hold
-        -- vim.api.nvim_create_autocmd("CursorHold", {
-        --   buffer = buf,
-        --   callback = function()
-        --     local opts = {
-        --       focusable = false,
-        --       close_events = {
-        --         "BufLeave",
-        --         "CursorMoved",
-        --         "InsertEnter",
-        --       },
-        --       source = false,
-        --       scope = "line",
-        --       border = "single",
-        --     }
-        --     vim.diagnostic.open_float(0, opts)
-        --   end,
-        -- })
-        -- Highlight variable under cursor
-        if client.server_capabilities.documentHighlightProvider then
-          vim.api.nvim_set_hl(0, "LspReferenceRead", { link = "Visual" })
-          vim.api.nvim_set_hl(0, "LspReferenceText", { link = "Visual" })
-          vim.api.nvim_set_hl(0, "LspReferenceWrite", { link = "Visual" })
-
-          -- FIXME: Doesn't work, also move into util/lsp.lua
-          --
-          -- local hlgroup = vim.api.nvim_create_augroup("lsp_document_highlight")
-          -- vim.api.nvim_create_autocmd("CursorHold" , {
-          --   group = hlgroup,
-          --   buffer = buf,
-          --   callback = function()
-          --     vim.notify("CursorHold hit")
-          --     vim.lsp.buf.document_highlight()
-          --   end
-          -- })
-          -- vim.api.nvim_create_autocmd("CursorMoved", {
-          --   group = hlgroup,
-          --   buffer = buf,
-          --   callback = vim.lsp.buf.clear_references
-          -- })
-        end
       end
 
       lspconfig.clangd.setup({
         capabilities = capabilities,
         on_attach = on_attach,
-        filetypes = { "c", "cpp", "cc" },
-        flags = {
-          debounce_text_changes = 500,
-        },
       })
 
       -- Use box borders for LSP floating windows
@@ -98,8 +50,11 @@ return {
 
       lspconfig.lua_ls.setup({})
       lspconfig.csharp_ls.setup({
-        -- capabilities = capabilities,
-        on_attach = on_attach
+        on_attach = on_attach,
+        handlers = {
+          ["textDocument/definition"] = require('csharpls_extended').handler,
+          ["textDocument/typeDefinition"] = require('csharpls_extended').handler,
+        },
       })
       lspconfig.rust_analyzer.setup({
         -- capabilities = capabilities,
@@ -125,4 +80,6 @@ return {
       })
     end,
   },
+  -- C# Decompilation
+  { "Decodetalkers/csharpls-extended-lsp.nvim", lazy = true }
 }

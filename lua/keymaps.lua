@@ -22,15 +22,15 @@ map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent =
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
--- Move Lines
-map("n", "<A-Down>", "<Cmd>m .+1<CR>==", { silent = true, desc = "Move Line Down" })
+-- Move lines/characters
 map("n", "<A-Up>", "<Cmd>m .-2<CR>==", { silent = true, desc = "Move Line Up" })
+map("n", "<A-Down>", "<Cmd>m .+1<CR>==", { silent = true, desc = "Move Line Down" })
+map("i", "<A-Up>", "<Esc><Cmd>m .-2<CR>==gi", { silent = true, desc = "Move Line Up" })
+map("i", "<A-Down>", "<Esc><Cmd>m .+1<CR>==gi", { silent = true, desc = "Move Line Down" })
+map("v", "<A-Up>", ":m '<-2<CR>gv=gv", { silent = true, desc = "Move Line Up" })
+map("v", "<A-Down>", ":m '>+1<CR>gv=gv", { silent = true, desc = "Move Line Down" })
 map("n", "<A-Left>", "xhP", { silent = true, desc = "Move character under cursor left" })
 map("n", "<A-Right>", "xp", { silent = true, desc = "Move character under cursor right" })
-map("i", "<A-Down>", "<Esc><Cmd>m .+1<CR>==gi", { silent = true, desc = "Move Line Down" })
-map("i", "<A-Up>", "<Esc><Cmd>m .-2<CR>==gi", { silent = true, desc = "Move Line Up" })
-map("v", "<A-Down>", ":m '>+1<CR>gv=gv", { silent = true, desc = "Move Line Down" })
-map("v", "<A-Up>", ":m '<-2<CR>gv=gv", { silent = true, desc = "Move Line Up" })
 map("v", "<A-Left>", "xhP`[<C-V>`]", { silent = true, desc = "Move character under cursor left" })
 map("v", "<A-Right>", "xp`[<C-V>`]", { silent = true, desc = "Move character under cursor right" })
 
