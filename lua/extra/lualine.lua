@@ -97,16 +97,16 @@ M.pretty_path = {
 
 M.root_hl = "#65BCFF"
 M.root = {
-  function(self)
+  function(_)
     return vim.fs.basename(get_cwd())
   end,
-  color = function(section)
+  color = function(_)
 	  return { fg = M.root_hl }
   end,
 }
 
 M.empty = {
-  function(self)
+  function(_)
     return "      "
   end,
   draw_empty = true,

@@ -12,14 +12,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local disabled = {
-  { "echasnovski/mini.indentscope", enabled = false },
-} or {}
-
 require("lazy").setup({
   spec = {
     { import = "plugins" },
-    { unpack(disabled) },
   },
   checker = {
     -- Don't automatically check for updates
@@ -38,5 +33,8 @@ require("lazy").setup({
         "zipPlugin",
       },
     },
+  },
+  ui = {
+    border = "single",
   },
 })

@@ -8,7 +8,7 @@ return {
       highlight = {
         enable = true,
         disable = function(_, buf)
-          -- Disable treesitter for large files, This might've been cuased by indentation
+          -- Disable treesitter for large files, This might've been caused by indent being enabled though
           return vim.api.nvim_buf_line_count(buf) > 7500
         end,
       },

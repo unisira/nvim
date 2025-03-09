@@ -35,11 +35,6 @@ return {
         end
       end
 
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-      })
-
       -- Use box borders for LSP floating windows
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "single",
@@ -48,6 +43,10 @@ return {
         border = "single",
       })
 
+      lspconfig.clangd.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
       lspconfig.lua_ls.setup({})
       lspconfig.csharp_ls.setup({
         on_attach = on_attach,
@@ -58,28 +57,43 @@ return {
       })
       lspconfig.rust_analyzer.setup({
         -- capabilities = capabilities,
-        on_attach = on_attach
+        on_attach = on_attach,
+      })
+      lspconfig.pylsp.setup({
+        on_attach = on_attach,
       })
 
+      vim.api.nvim_set_hl(0, "DiagnosticLineError", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextError" }).bg });
+      vim.api.nvim_set_hl(0, "DiagnosticLineWarn", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextWarn" }).bg });
+      vim.api.nvim_set_hl(0, "DiagnosticLineInfo", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextInfo" }).bg });
+      vim.api.nvim_set_hl(0, "DiagnosticLineHint", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextHint" }).bg });
+
       vim.diagnostic.config({
+        underline = false,
         signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = "●",
-            [vim.diagnostic.severity.WARN] = "●",
-            [vim.diagnostic.severity.HINT] = "●",
-            [vim.diagnostic.severity.INFO] = "●",
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+          },
+          linehl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticLineError",
+            [vim.diagnostic.severity.WARN] = "DiagnosticLineWarn",
+            [vim.diagnostic.severity.INFO] = "DiagnosticLineInfo",
+            [vim.diagnostic.severity.HINT] = "DiagnosticLineHint",
+          },
+          virtual_text = {
+            spacing = 4,
+            source = false,
           },
         },
-        underline = false,
-        update_in_insert = false,
-        virtual_text = {
-          spacing = 4,
-          source = false,
+        float = {
+          border = "single",
         },
-        severity_sort = true,
       })
     end,
   },
   -- C# Decompilation
-  { "Decodetalkers/csharpls-extended-lsp.nvim", lazy = true }
+  { "Decodetalkers/csharpls-extended-lsp.nvim", lazy = true },
 }

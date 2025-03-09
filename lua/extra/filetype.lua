@@ -5,7 +5,7 @@ M.style = function(config)
     -- Use default options if none were set
     opts = vim.tbl_extend("force", {
       space = vim.opt.expandtab,
-      width = vim.opt.shiftwidth
+      width = vim.opt.shiftwidth,
     }, opts or {})
     vim.api.nvim_create_autocmd("FileType", {
       pattern = filetype,

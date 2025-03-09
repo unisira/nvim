@@ -32,8 +32,8 @@ opt.clipboard = "unnamedplus" -- Yank to clipboard
 
 -- Identation:
 opt.expandtab = false -- Do not expand tab characters to spaces
-opt.tabstop = 4 -- The number of whitespace characters a <Tab> is rendered as
-opt.shiftwidth = 4 -- The number of whitespace characters to insert when indenting
+opt.tabstop = 2 -- The number of whitespace characters a <Tab> is rendered as
+opt.shiftwidth = 2 -- The number of whitespace characters to insert when indenting
 opt.shiftround = true -- Round indentation levels to a multiple of `shiftwidth`
 opt.smartindent = true -- Insert indents automatically
 opt.expandtab = false -- Don't use spaces instead of tabs
@@ -80,13 +80,6 @@ opt.fillchars = {
   eob = " ",
 }
 
--- TODO: Make this more awesome, navic is clean AF and I'm liking the more minimal approach.
--- The only thing i don't really like at the minute is I don't have an easy way to switch
--- between open buffers, I should use FzfLua more often. Maybe I drop it for this and use telescope
--- to see what it's like?
--- opt.winbar = "%f %{%v:lua.require'nvim-navic'.get_location()%}"
-
--- NOTE: indent-blankline is super slow with scope enabled
 -- NOTE:
 -- Enable list if you would like to have characters instead of blocks for
 -- trailing whitespace
@@ -108,18 +101,18 @@ require("extra.filetype").style({
     comment = "-- %s",
   },
   rust = {
-    spaces = false,
+    spaces = true,
     width = 4,
     comment = "// %s",
   },
   c = {
     spaces = false,
-    width = 4,
+    width = 2,
     comment = "// %s",
   },
   cpp = {
     spaces = false,
-    width = 4,
+    width = 2,
     comment = "// %s",
   },
 })

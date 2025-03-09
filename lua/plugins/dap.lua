@@ -1,19 +1,20 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    enabled = false,
     config = function()
+      require("dapui").setup()
+
       local dap = require("dap")
       -- Setup CodeLLDB server to start automatically
       dap.adapters.codelldb = {
         type = "server",
-        host = "localhost",
         port = "${port}",
         executable = {
           command = "codelldb",
           args = {
             "--port", "${port}"
           },
+          detached = false,
         },
       }
 
@@ -34,5 +35,20 @@ return {
       dap.configurations.cpp = tasks
     end,
   },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
+    },
+    keys = {
+      { "<Space>dd", function() require("dapui").toggle() end, desc = "Toggle DapUI" },
+      { "<Space>dl", "<Cmd>DapNew Launch<CR>", desc = "DAP - Launch" },
+      { "<Space>db", "<Cmd>DapToggleBreakpoint<CR>", desc = "DAP - Toggle Breakpoint" },
+      { "<Space>dc", "<Cmd>DapContinue<CR>", desc = "DAP - Continue" },
+      { "<Space>ds", "<Cmd>DapStepOver<CR>", desc = "DAP - Step Over" },
+      { "<Space>dS", "<Cmd>DapStepInto<CR>", desc = "DAP - Step Into" },
+    }
+  }
 }
 

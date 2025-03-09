@@ -1,8 +1,37 @@
+local colors = require("extra.colors")
+
 local function augroup(name)
   return vim.api.nvim_create_augroup("aucmd_" .. name, { clear = true })
 end
 
--- Check if we need to reload the file when it changed
+-- Update custom colorscheme options, I hate color schemes
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+
+    local set_hl = vim.api.nvim_set_hl
+    local get_hl = vim.api.nvim_get_hl
+    -- Use generic filename highlights instead of underlining
+    set_hl(0, "NvimTreeDiagnosticErrorFileHL", { link = "DiagnosticError" })
+    set_hl(0, "NvimTreeDiagnosticWarnFileHL", { link = "DiagnosticWarn" })
+    set_hl(0, "NvimTreeDiagnosticInfoFileHL", { link = "DiagnosticInfo" })
+    set_hl(0, "NvimTreeDiagnosticHintFileHL", { link = "DiagnosticHint" })
+    -- Make open folder's icon's bold
+    set_hl(0, "NvimTreeFolderArrowOpen", { link = "Bold" })
+
+    -- Define diagnostic line highlights to be the same color as the virtual text background
+    vim.api.nvim_set_hl(0, "DiagnosticLineError", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextError" }).bg });
+    vim.api.nvim_set_hl(0, "DiagnosticLineWarn", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextWarn" }).bg });
+    vim.api.nvim_set_hl(0, "DiagnosticLineInfo", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextInfo" }).bg });
+    vim.api.nvim_set_hl(0, "DiagnosticLineHint", { bg = vim.api.nvim_get_hl(0, { name = "DiagnosticVirtualTextHint" }).bg });
+
+    -- Make the sign column and fold column all use the background color
+    -- vim.api.nvim_set_hl(0, "SignColumn", { link = "Normal" })
+    -- vim.api.nvim_set_hl(0, "FoldColumn", { link = "Normal" })
+  end,
+})
+
+-- Open a file picker if neovim was launched with no target file
+-- TODO: Make this check if it's a file, and not a directory
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if vim.fn.argv(0) == "" then

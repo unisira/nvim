@@ -68,7 +68,6 @@ return {
       require("telescope").load_extension("fzf")
 
       local builtin = require("telescope.builtin")
-      vim.keymap.set("n", "<Leader>b", builtin.buffers, { desc = "Search active buffers" })
       vim.keymap.set("n", "<Leader>f", builtin.find_files, { desc = "Search files" })
       vim.keymap.set("n", "<Leader>F", builtin.find_files, { desc = "Browse files" })
       vim.keymap.set("n", "<Leader>o", builtin.oldfiles, { desc = "Search recent files" })
@@ -134,7 +133,9 @@ return {
         sort_by = "name",
         renderer = {
           add_trailing = false,
-          root_folder_label = false,
+          root_folder_label = function(path)
+            return "Neo-tree"
+          end,
           highlight_modified = "name",
           highlight_diagnostics = "name",
           indent_markers = {
@@ -175,15 +176,6 @@ return {
           enable = false,
         },
       })
-
-      local set_hl = vim.api.nvim_set_hl
-      -- Use generic filename highlights instead of underlining
-      set_hl(0, "NvimTreeDiagnosticErrorFileHL", { link = "DiagnosticError" })
-      set_hl(0, "NvimTreeDiagnosticWarnFileHL", { link = "DiagnosticWarn" })
-      set_hl(0, "NvimTreeDiagnosticInfoFileHL", { link = "DiagnosticInfo" })
-      set_hl(0, "NvimTreeDiagnosticHintFileHL", { link = "DiagnosticHint" })
-      -- Make open folder's icon's bold
-      set_hl(0, "NvimTreeFolderArrowOpen", { link = "Bold" })
     end,
   },
   -- Lists for diagnostics, symbols, etc.
@@ -215,4 +207,18 @@ return {
       },
     },
   },
+  -- Breadcrumbs
+  {
+    "utilyre/barbecue.nvim",
+    event = "BufEnter",
+    version = "*",
+    dependencies = {
+      "smiteshp/nvim-navic",
+    },
+    keys = {
+      { "<Leader>bb", function() require("barbecue.ui").toggle() end, desc = "Toggle breadcrumbs" },
+      { "<Leader>bo", function() require("barbecue.ui").navigate(-1) end, desc = "Move to previous scope" },
+    },
+    opts = {}
+  }
 }
