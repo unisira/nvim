@@ -15,4 +15,4 @@ end
 require("config")
 require("spec")
 
-vim.cmd("color ayu")
+vim.cmd("color catppuccin")

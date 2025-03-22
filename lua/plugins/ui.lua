@@ -62,6 +62,11 @@ return {
             prompt_position = "top",
           },
           borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+        },
+        pickers = {
+          colorscheme = {
+            enable_preview = true,
+          }
         }
       })
       -- Use FZF, it's better

@@ -107,12 +107,12 @@ require("extra.filetype").style({
   },
   c = {
     spaces = false,
-    width = 2,
+    width = 4,
     comment = "// %s",
   },
   cpp = {
     spaces = false,
-    width = 2,
+    width = 4,
     comment = "// %s",
   },
 })
