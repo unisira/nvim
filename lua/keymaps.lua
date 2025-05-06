@@ -16,6 +16,15 @@ map("n", "<Leader>q", "<Cmd>x<CR>", { silent = true, desc = "Save and quit curre
 -- Save and quit all opened buffers
 map("n", "<Leader>Q", "<Cmd>xa<CR><Cmd>qa<CR>", { silent = true, desc = "Save all and quit" })
 
+-- Open lazy window
+map("n", "<Leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+-- Copy entire buffer.
+map("n", "<Leader>y", "<Cmd>%yank<CR>", { desc = "Yank entire buffer" })
+
+-- New file
+map("n", "<Leader>n", "<Cmd>enew<CR>", { desc = "New File" })
+
 -- Better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -57,20 +66,11 @@ map("x", ">", ">gv")
 -- Clear search with <Esc>
 map({ "i", "n" }, "<Esc>", "<Esc><Cmd>noh<CR>", { desc = "Escape and Clear hlsearch" })
 
--- Open lazy window
-map("n", "<Leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
--- Copy entire buffer.
-map("n", "<Leader>y", "<Cmd>%yank<CR>", { desc = "Yank entire buffer" })
-
 -- Replace visual selection with text in register, but not contaminate the register
 map("x", "p", '"_c<Esc>p')
 
 -- Go to beginning of command in command-line mode
 map("c", "<C-A>", "<HOME>")
-
--- New file
-map("n", "<Leader>n", "<Cmd>enew<CR>", { desc = "New File" })
 
 -- Tabs
 map("n", "<Leader><Tab>l", "<Cmd>tablast<CR>", { desc = "Last Tab" })
@@ -81,5 +81,4 @@ map("n", "<Leader><Tab>d", "<Cmd>tabclose<CR>", { desc = "Close Tab" })
 map("n", "<Leader><Tab>[", "<Cmd>tabprevious<CR>", { desc = "Previous Tab" })
 
 -- Use Esc to quit builtin terminal
--- Retarded neovim devs can't make vim.keymap.set work for tmap's I guess
 vim.cmd(":tmap <Esc> <C-\\><C-n>")

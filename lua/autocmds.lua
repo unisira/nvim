@@ -4,6 +4,20 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("aucmd_" .. name, { clear = true })
 end
 
+-- Temporary fix for telescope UI
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TelescopeFindPre",
+  callback = function()
+    vim.opt_local.winborder = "none"
+    vim.api.nvim_create_autocmd("WinLeave", {
+      once = true,
+      callback = function()
+        vim.opt_local.winborder = "rounded"
+      end,
+    })
+  end,
+})
+
 -- Update custom colorscheme options, I hate color schemes
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
@@ -98,22 +112,22 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Exit luasnip session on mode-change from select/insert
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "*",
-  callback = function()
-    local luasnip = require("luasnip")
-    -- Don't exit this session if it's not in this buffer or we are actively jumping
-    if not luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] or luasnip.session.jump_active then
-      return
-    end
-
-    local event = vim.v.event
-    -- Exit this session if we are exiting from a valid auto-completion mode
-    if (event.old_mode == "s" and event.new_mode == "n") or event.old_mode == "i" then
-      luasnip.unlink_current()
-    end
-  end
-})
+-- vim.api.nvim_create_autocmd("ModeChanged", {
+--   pattern = "*",
+--   callback = function()
+--     local luasnip = require("luasnip")
+--     -- Don't exit this session if it's not in this buffer or we are actively jumping
+--     if not luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] or luasnip.session.jump_active then
+--       return
+--     end
+-- 
+--     local event = vim.v.event
+--     -- Exit this session if we are exiting from a valid auto-completion mode
+--     if (event.old_mode == "s" and event.new_mode == "n") or event.old_mode == "i" then
+--       luasnip.unlink_current()
+--     end
+--   end
+-- })
 
 -- Highlight trailing whitespace
 -- TODO: Move into own file, util/whitespace.lua

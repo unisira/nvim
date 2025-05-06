@@ -56,6 +56,7 @@ opt.showmode = false
 opt.showcmd = false
 opt.ruler = false
 opt.wrap = false -- Don't wrap text
+opt.winborder = "single"
 
 -- TODO: Fix that retarded fucking nvim-cmp bug where it jumps to the last auto-complete selection
 opt.formatoptions = "jcroqlnt" -- Basic auto-formatting options while editing
