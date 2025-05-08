@@ -31,6 +31,12 @@ return {
           map("<S-k>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
           map("<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
           map("<Space>r", vim.lsp.buf.rename, { desc = "Rename current variable" })
+
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          -- Bind formatting if this server provides one
+          if client and client.server_capabilities.documentFormattingProvider then
+            map("<Space>f", vim.lsp.buf.format, { desc = "Format buffer" })
+          end
         end,
       })
 
