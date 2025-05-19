@@ -23,7 +23,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
 
     local set_hl = vim.api.nvim_set_hl
-    local get_hl = vim.api.nvim_get_hl
     -- Use generic filename highlights instead of underlining
     set_hl(0, "NvimTreeDiagnosticErrorFileHL", { link = "DiagnosticError" })
     set_hl(0, "NvimTreeDiagnosticWarnFileHL", { link = "DiagnosticWarn" })
@@ -111,79 +110,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Exit luasnip session on mode-change from select/insert
--- vim.api.nvim_create_autocmd("ModeChanged", {
---   pattern = "*",
---   callback = function()
---     local luasnip = require("luasnip")
---     -- Don't exit this session if it's not in this buffer or we are actively jumping
---     if not luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] or luasnip.session.jump_active then
---       return
---     end
--- 
---     local event = vim.v.event
---     -- Exit this session if we are exiting from a valid auto-completion mode
---     if (event.old_mode == "s" and event.new_mode == "n") or event.old_mode == "i" then
---       luasnip.unlink_current()
---     end
---   end
--- })
-
--- Highlight trailing whitespace
--- TODO: Move into own file, util/whitespace.lua
--- TODO: Update TrailingWhitespace on colorscheme load depending on
--- if we are in insert-mode or not, but not necessary rn
--- TODO: Grab background color of 'Error' highlight instead
 vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#C53B53" })
-
-vim.api.nvim_create_autocmd("InsertEnter", {
-  -- group = augroup("highlight_trailing_ws"),
-  callback = function()
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Whitespace" })
-  end
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  -- group = augroup("highlight_trailing_ws"),
-  callback = function()
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#C53B53" })
-  end
-})
-
--- TODO: Language file types are used frequently, put them somewhere so its synced
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("highlight_whitespace"),
-  desc = "Highlight trailing whitespace",
-  pattern = {
-    "rs",
-    "lua",
-    "cpp",
-    "c",
-  },
-  callback = function(event)
-    vim.cmd([[match TrailingWhitespace /\s\+$/]])
-  end
-})
-
--- Quit Nvim if there are no normal buffers
--- vim.api.nvim_create_autocmd("BufEnter", {
---   desc = "Ignore non-normal buffers on quit",
---   callback = function()
---     vim.notify("Running quit checker")
---     local normal_count = 0
---     -- Check all open buffers if there are any normal buffers
---     for _, bufname in pairs(vim.api.nvim_list_bufs()) do
---       if vim.api.nvim_buf_is_loaded(bufname) then
---         local bt = vim.api.nvim_buf_get_option(bufname, "buftype")
---         vim.notify("Buftype: " .. bt)
---         if bt == "" or bt == "normal" then
---           normal_count = normal_count + 1
---         end
---       end
---     end
---     vim.notify("Normal count: " .. normal_count)
---     if normal_count < 1 then
---       vim.cmd("qall")
---     end
---   end
--- })
