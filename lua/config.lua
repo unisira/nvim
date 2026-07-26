@@ -56,7 +56,6 @@ opt.showmode = false
 opt.showcmd = false
 opt.ruler = false
 opt.wrap = false -- Don't wrap text
-opt.winborder = "single"
 
 -- TODO: Fix that retarded fucking nvim-cmp bug where it jumps to the last auto-complete selection
 opt.formatoptions = "jcroqlnt" -- Basic auto-formatting options while editing
@@ -91,9 +90,17 @@ opt.listchars:append({
 	-- trail = "·",
 })
 
--- Load auto-commands and keymaps now that everything is initialized
+-- Load auto-commands, keymaps, and LSP config now that everything is initialized
 require("autocmds")
 require("keymaps")
+require("lsp")
+
+-- Enable native treesitter highlighting for all filetypes with an available parser
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf)
+  end,
+})
 -- Use spaces and 2-width tabs for lua files
 require("extra.filetype").style({
   lua = {

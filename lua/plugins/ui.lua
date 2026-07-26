@@ -35,7 +35,7 @@ return {
     cmd = "TodoTrouble",
     event = "BufEnter",
     keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next TODO comment" },
+      { "]t", function() require(("todo-comments")).jump_next() end, desc = "Next TODO comment" },
       { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous TODO comment" },
       { "<Leader>tt", "<Cmd>Trouble todo<CR>", desc = "List TODO comments" },
       { "<Leader>tT", "<Cmd>TodoTelescope<CR>", desc = "Search TODO comments" },
@@ -154,4 +154,5 @@ return {
 
   -- Utility library used by tonnes of other plugins
   { "nvim-lua/plenary.nvim", lazy = true },
+
 }

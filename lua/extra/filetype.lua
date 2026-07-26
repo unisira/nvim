@@ -10,11 +10,11 @@ M.style = function(config)
     vim.api.nvim_create_autocmd("FileType", {
       pattern = filetype,
       callback = function(event)
-        vim.api.nvim_buf_set_option(event.buf, "expandtab", opts.spaces)
-        vim.api.nvim_buf_set_option(event.buf, "shiftwidth", opts.width)
-        vim.api.nvim_buf_set_option(event.buf, "tabstop", opts.width)
+        vim.bo[event.buf].expandtab = opts.spaces
+        vim.bo[event.buf].shiftwidth = opts.width
+        vim.bo[event.buf].tabstop = opts.width
         if opts.comment then
-          vim.api.nvim_buf_set_option(event.buf, "commentstring", opts.comment)
+          vim.bo[event.buf].commentstring = opts.comment
         end
       end,
     })

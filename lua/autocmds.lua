@@ -5,18 +5,19 @@ local function augroup(name)
 end
 
 -- Temporary fix for telescope UI
-vim.api.nvim_create_autocmd("User", {
-  pattern = "TelescopeFindPre",
-  callback = function()
-    vim.opt_local.winborder = "none"
-    vim.api.nvim_create_autocmd("WinLeave", {
-      once = true,
-      callback = function()
-        vim.opt_local.winborder = "rounded"
-      end,
-    })
-  end,
-})
+--
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "TelescopeFindPre",
+--   callback = function()
+--     vim.opt_local.winborder = "none"
+--     vim.api.nvim_create_autocmd("WinLeave", {
+--       once = true,
+--       callback = function()
+--         vim.opt_local.winborder = "rounded"
+--       end,
+--     })
+--   end,
+-- })
 
 -- Update custom colorscheme options, I hate color schemes
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -67,7 +68,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
-    vim.highlight.on_yank({ timeout = 300 })
+    vim.hl.on_yank({ timeout = 300 })
   end,
 })
 
@@ -76,6 +77,19 @@ vim.api.nvim_create_autocmd("VimResized", {
   group = augroup("win_resize"),
   desc = "Auto-resize windows",
   command = "wincmd =",
+})
+
+-- Enable wrap with line-break on markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown" },
+  callback = function(event)
+    local win = vim.api.nvim_get_current_win()
+    if vim.api.nvim_win_get_config(win).relative ~= "" then
+      return
+    end
+    vim.wo[win].wrap = true
+    vim.wo[win].linebreak = true
+  end,
 })
 
 -- Close some filetypes with <q>
